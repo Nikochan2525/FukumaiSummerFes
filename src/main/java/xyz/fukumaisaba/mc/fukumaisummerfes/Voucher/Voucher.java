@@ -1,7 +1,9 @@
 package xyz.fukumaisaba.mc.fukumaisummerfes.Voucher;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -12,6 +14,7 @@ import java.util.Objects;
 
 public class Voucher {
     private static final NamespacedKey AMOUNT = new NamespacedKey(SummerFesPlugin.getPlugin(), "amount_of_money");
+    private static final String SellInventoryTitle = "§6§l金券売却§r §l-売りたい金券を入れてください-";
 
     public static ItemStack createVoucherItem(int amount) {
         ItemStack response = new ItemStack(Material.GOLD_INGOT);
@@ -28,5 +31,13 @@ public class Voucher {
         Integer amount = itemMeta.getPersistentDataContainer().get(AMOUNT, PersistentDataType.INTEGER);
         if (amount == null) amount = 0;
         return amount * itemStack.getAmount();
+    }
+
+    public static Inventory createSellInventory() {
+        return Bukkit.createInventory(null, 54, SellInventoryTitle);
+    }
+
+    public static String getSellInventoryTitle() {
+        return SellInventoryTitle;
     }
 }

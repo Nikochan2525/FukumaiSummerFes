@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import xyz.fukumaisaba.mc.fukumaisummerfes.SummerFesPlugin;
 import xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Voucher;
 
@@ -53,8 +55,15 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
                 }
                 EconomyResponse response = economy.withdrawPlayer(senderPlayer, amount);
                 if (response.transactionSuccess()) {
-                    Item item = world.spawn(senderPlayer.getLocation(), Item.class);
-                    item.setItemStack(Voucher.createVoucherItem(amount));
+                    Inventory inventory = senderPlayer.getInventory();
+                    ItemStack itemStack = Voucher.createVoucherItem(amount);
+                    if (inventory.firstEmpty() == -1) {
+                        Item item = world.spawn(senderPlayer.getLocation(), Item.class);
+                        item.setItemStack(itemStack);
+                    }
+                    else {
+                        inventory.addItem(itemStack);
+                    }
                 }
                 else {
                     sender.sendMessage(ChatColor.RED + "エラーが発生しました: " + response.errorMessage);
