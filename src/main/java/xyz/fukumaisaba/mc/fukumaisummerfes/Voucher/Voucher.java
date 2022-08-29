@@ -3,6 +3,9 @@ package xyz.fukumaisaba.mc.fukumaisummerfes.Voucher;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +17,7 @@ import java.util.Objects;
 
 public class Voucher {
     private static final NamespacedKey AMOUNT = new NamespacedKey(SummerFesPlugin.getPlugin(), "amount_of_money");
-    private static final String SellInventoryTitle = "§6§l金券売却§r §l-売りたい金券を入れてください-";
+    private static final String SellInventoryTitle = "§l-売りたい金券を入れてください-";
 
     public static ItemStack createVoucherItem(int amount) {
         ItemStack response = new ItemStack(Material.GOLD_INGOT);
@@ -27,6 +30,7 @@ public class Voucher {
     }
 
     public static int getAmountOfItem(ItemStack itemStack) {
+        if (itemStack == null) return 0;
         ItemMeta itemMeta = Objects.requireNonNull(itemStack.getItemMeta());
         Integer amount = itemMeta.getPersistentDataContainer().get(AMOUNT, PersistentDataType.INTEGER);
         if (amount == null) amount = 0;
@@ -39,5 +43,18 @@ public class Voucher {
 
     public static String getSellInventoryTitle() {
         return SellInventoryTitle;
+    }
+
+    public static void giveItem(Player player, ItemStack itemStack) {
+        if (itemStack == null) return;
+        Inventory inventory = player.getInventory();
+        World world = player.getWorld();
+        if (inventory.firstEmpty() == -1) {
+            Item item = world.spawn(player.getLocation(), Item.class);
+            item.setItemStack(itemStack);
+        }
+        else {
+            inventory.addItem(itemStack);
+        }
     }
 }

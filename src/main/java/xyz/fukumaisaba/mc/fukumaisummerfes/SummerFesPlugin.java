@@ -2,9 +2,11 @@ package xyz.fukumaisaba.mc.fukumaisummerfes;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Command.VoucherCommand;
+import xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Listener.VoucherSellEvent;
 
 import java.util.Objects;
 
@@ -22,6 +24,8 @@ public final class SummerFesPlugin extends JavaPlugin {
             return;
         }
         Objects.requireNonNull(getCommand("voucher")).setExecutor(new VoucherCommand());
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new VoucherSellEvent(), getPlugin());
     }
 
     @Override

@@ -3,15 +3,11 @@ package xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Command;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import xyz.fukumaisaba.mc.fukumaisummerfes.SummerFesPlugin;
 import xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Voucher;
 
@@ -31,7 +27,6 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
             case "buy":
                 int amount;
                 Economy economy = SummerFesPlugin.getEconomy();
-                World world = senderPlayer.getWorld();
 
                 if (args.length != 2) {
                     sender.sendMessage(VoucherErrorMessages.INVALID_ARGUMENTS);
@@ -39,8 +34,7 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
                 }
                 try {
                     amount = Integer.parseInt(args[1]);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     sender.sendMessage(VoucherErrorMessages.INVALID_NUMBER);
                     return true;
                 }
@@ -55,22 +49,18 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
                 }
                 EconomyResponse response = economy.withdrawPlayer(senderPlayer, amount);
                 if (response.transactionSuccess()) {
-                    Inventory inventory = senderPlayer.getInventory();
-                    ItemStack itemStack = Voucher.createVoucherItem(amount);
-                    if (inventory.firstEmpty() == -1) {
-                        Item item = world.spawn(senderPlayer.getLocation(), Item.class);
-                        item.setItemStack(itemStack);
-                    }
-                    else {
-                        inventory.addItem(itemStack);
-                    }
-                }
-                else {
+                    Voucher.giveItem(senderPlayer, Voucher.createVoucherItem(amount));
+                } else {
                     sender.sendMessage(ChatColor.RED + "エラーが発生しました: " + response.errorMessage);
                 }
                 break;
 
             case "sell":
+                if (args.length != 1) {
+                    sender.sendMessage(VoucherErrorMessages.INVALID_ARGUMENTS);
+                    return true;
+                }
+                senderPlayer.openInventory(Voucher.createSellInventory());
                 break;
 
             default:
