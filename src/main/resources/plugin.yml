@@ -1,0 +1,5 @@
+name: FukumaiSummerFes
+version: '${project.version}'
+main: xyz.fukumaisaba.mc.fukumaisummerfes.SummerFesPlugin
+api-version: 1.16
+authors: [ FukumaiLAB ]
