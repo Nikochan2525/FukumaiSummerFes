@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import xyz.fukumaisaba.mc.fukumaisummerfes.SummerFesPlugin;
 import xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Voucher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VoucherCommand implements CommandExecutor, TabCompleter {
@@ -72,6 +74,13 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return null;
+        List<String> response = new ArrayList<>(Arrays.asList("buy", "sell", "help"));
+        if (args.length <= 1) {
+            response.removeIf(s -> !s.startsWith(args[0]));
+        }
+        else {
+            response.clear();
+        }
+        return response;
     }
 }
