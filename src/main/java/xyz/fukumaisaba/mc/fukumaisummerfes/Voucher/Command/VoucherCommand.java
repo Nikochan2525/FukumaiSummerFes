@@ -65,6 +65,10 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
                 senderPlayer.openInventory(Voucher.createSellInventory());
                 break;
 
+            case "help":
+                senderPlayer.sendMessage("/voucher help: このメッセージを表示します\n/voucher buy [金額]: 指定した金額分金券を購入します\n/voucher sell: 金券売却画面を表示します");
+                break;
+
             default:
                 sender.sendMessage(VoucherErrorMessages.INVALID_ARGUMENTS);
                 break;
