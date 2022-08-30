@@ -3,6 +3,7 @@ package xyz.fukumaisaba.mc.fukumaisummerfes.Voucher.Command;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -52,6 +53,9 @@ public class VoucherCommand implements CommandExecutor, TabCompleter {
                 EconomyResponse response = economy.withdrawPlayer(senderPlayer, amount);
                 if (response.transactionSuccess()) {
                     Voucher.giveItem(senderPlayer, Voucher.createVoucherItem(amount));
+                    senderPlayer.sendMessage(String.format("§a[福舞金券] %d円分の金券を購入しました", amount));
+                    senderPlayer.playSound(senderPlayer.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+
                 } else {
                     sender.sendMessage(ChatColor.RED + "エラーが発生しました: " + response.errorMessage);
                 }

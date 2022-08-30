@@ -34,7 +34,7 @@ public class VoucherSellEvent implements Listener {
                 Voucher.giveItem(player, returnItem);
             }
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1, 1);
-            player.sendMessage(String.format("[福舞金券] %d円分換金しました", purchasePrice));
+            player.sendMessage(String.format("§a[福舞金券] %d円分換金しました", purchasePrice));
         }
     }
 }
