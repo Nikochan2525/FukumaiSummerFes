@@ -6,5 +6,8 @@ authors: [ FukumaiLAB ]
 commands:
   voucher:
     description: 金券交換機能
+  spawn:
+    description: スポーン地点に帰還させるよ！
+
 depend:
   - Vault

@@ -25,6 +25,7 @@ public final class SummerFesPlugin extends JavaPlugin {
         }
         Objects.requireNonNull(getCommand("voucher")).setExecutor(new VoucherCommand());
         Objects.requireNonNull(getCommand("voucher")).setTabCompleter(new VoucherCommand());
+        getCommand("spawn").setExecutor(new xyz.fukumaisaba.mc.fukumaisummerfes.SpawnCommand.CommandListener());
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new VoucherSellEvent(), getPlugin());
     }
