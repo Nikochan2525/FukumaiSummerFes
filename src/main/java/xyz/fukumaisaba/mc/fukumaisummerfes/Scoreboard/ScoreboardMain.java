@@ -2,11 +2,14 @@ package xyz.fukumaisaba.mc.fukumaisummerfes.Scoreboard;
 
 import jdk.internal.org.jline.utils.Display;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
+import sun.text.resources.ext.CollationData_zh_TW;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Calendar;
 
 /**
  * <summary>
@@ -29,6 +32,29 @@ public class ScoreboardMain {
         __player=player;
         __Texts=Texts;
         __DisplayName= Displayname;
+
+        UpdateScoreboard();
+    }
+    public ScoreboardMain(Player player){
+        __player=player;
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        __Texts=new ArrayList<String>();
+
+        __Texts.add(sdf.format(cal.getTime()));
+        __Texts.add(" ");
+        __Texts.add("プレイヤー: ");
+        __Texts.add("名前: "+player.getName());
+        __Texts.add("❤ ");
+        __Texts.add("  ");
+        __Texts.add(Color.GREEN+"status "+Color.RED+">");
+        __Texts.add("❤: ");
+        __Texts.add("所持金: ");
+        __Texts.add("    ");
+        __Texts.add(Color.YELLOW+"mc.fukumaisaba.xyz");
+
+        __DisplayName= Color.AQUA+"福舞鯖"+Color.WHITE+" - "+Color.RED+"夏祭り2022";
 
         UpdateScoreboard();
     }
@@ -107,6 +133,13 @@ public class ScoreboardMain {
     public void setDisplayname(String name){
         __DisplayName=name;
         UpdateScoreboard();
+    }
+    /**
+     * <summary>
+     *      スコアボードを破棄します。プレイヤーが抜けた際に必ず呼び出してください。
+     */
+    public void Unregister(){
+        objective.unregister();
     }
 
     private void UpdateScoreboard() {
